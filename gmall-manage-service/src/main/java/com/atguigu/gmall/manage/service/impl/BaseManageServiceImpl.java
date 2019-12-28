@@ -49,9 +49,11 @@ public class BaseManageServiceImpl implements BaseManageService {
 
     @Override
     public List<BaseAttrInfo> getAttrList(String catalog3Id) {
-        Example example = new Example(BaseAttrInfo.class);
-        example.createCriteria().andEqualTo("catalog3Id",catalog3Id);
-        return baseAttrInfoMapper.selectByExample(example);
+//        Example example = new Example(BaseAttrInfo.class);
+//        example.createCriteria().andEqualTo("catalog3Id",catalog3Id);
+//        return baseAttrInfoMapper.selectByExample(example);
+        return baseAttrInfoMapper.getBaseAttrInfoListByCatalog3Id(catalog3Id);
+
     }
 
     @Transactional

@@ -2,6 +2,7 @@ package com.atguigu.gmall.service;
 
 import com.atguigu.gmall.bean.SpuImage;
 import com.atguigu.gmall.bean.SpuInfo;
+import com.atguigu.gmall.bean.SpuSaleAttr;
 
 import java.util.List;
 
@@ -15,7 +16,7 @@ public interface SpuInfoService {
     List<SpuInfo> getSpuInfoList(SpuInfo spuInfo);
 
     /**
-     * 保存spu信息，包括其中的图片，销售属性
+     * 保存spu信息，包括其中的图片，销售属性和销售属性值
      * @param spuInfo -
      */
     void saveSpuInfo(SpuInfo spuInfo);
@@ -26,4 +27,9 @@ public interface SpuInfoService {
      * @return 指定spuId的图片信息
      */
     List<SpuImage> getSpuImageList(String spuId);
+
+    /**
+     * 获取指定spuId的销售属性及其销售属性值
+     */
+    List<SpuSaleAttr> getSpuSaleAttrList(String spuId);
 }

@@ -29,22 +29,36 @@ public class BaseManageController {
         return baseManageService.getCatalog3(catalog2Id);
     }
 
+    /**
+     *
+     * @param catalog3Id 三级分类ID
+     * @return 三级分类的平台属性
+     */
     @RequestMapping("attrInfoList")
     public List<BaseAttrInfo> attrInfoList(String catalog3Id){
         return baseManageService.getAttrList(catalog3Id);
     }
 
+    /**
+     * 更新或添加基本平台属性
+     * @param baseAttrInfo -
+     */
     @RequestMapping("saveAttrInfo")
     public void saveOrUpdateAttrInfo(@RequestBody BaseAttrInfo baseAttrInfo){
         baseManageService.saveAttrInfo(baseAttrInfo);
     }
 
+    /**
+     * 根据平台属性ID获取属性值，如果没有，返回null
+     * @param attrId 平台属性ID
+     */
     @RequestMapping("getAttrValueList")
     public List<BaseAttrValue> getAttrValue(String attrId){
         BaseAttrInfo attrInfo = baseManageService.getAttrInfoById(attrId);
         return attrInfo == null ? null:attrInfo.getAttrValueList();
     }
 
+    //所有基本销售属性
     @RequestMapping("baseSaleAttrList")
     public List<BaseSaleAttr> getBaseSaleAttr(){
         return baseManageService.getBaseSaleAttrList();

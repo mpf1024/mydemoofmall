@@ -20,7 +20,7 @@ public interface BaseManageService {
     List<BaseAttrInfo> getAttrList(String catalog3Id);
 
     /**
-     * 根据ID是否存在来保存或更新属性及其属性值
+     * 根据ID是否存在来保存或更新基本平台属性和属性值
      * @param baseAttrInfo 属性信息
      */
     void saveAttrInfo(BaseAttrInfo baseAttrInfo);
@@ -41,7 +41,7 @@ public interface BaseManageService {
 
     /**
      *
-     * @return 所有销售属性
+     * @return 所有基本销售属性
      */
     List<BaseSaleAttr> getBaseSaleAttrList();
 }

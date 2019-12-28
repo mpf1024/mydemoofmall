@@ -11,6 +11,7 @@ import com.atguigu.gmall.manage.mapper.SpuSaleAttrMapper;
 import com.atguigu.gmall.manage.mapper.SpuSaleAttrValueMapper;
 import com.atguigu.gmall.service.SpuInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -35,6 +36,7 @@ public class SpuInfoServiceImpl implements SpuInfoService {
     }
 
     @Override
+    @Transactional
     public void saveSpuInfo(SpuInfo spuInfo) {
         // 什么情况下是保存，什么情况下是更新 spuInfo
         if (spuInfo.getId() == null || spuInfo.getId().length() == 0) {
@@ -100,5 +102,10 @@ public class SpuInfoServiceImpl implements SpuInfoService {
         SpuImage spuImage = new SpuImage();
         spuImage.setSpuId(spuId);
         return spuImageMapper.select(spuImage);
+    }
+
+    @Override
+    public List<SpuSaleAttr> getSpuSaleAttrList(String spuId) {
+        return spuSaleAttrMapper.selectSpuSaleAttrList(spuId);
     }
 }

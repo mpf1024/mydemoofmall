@@ -1,13 +1,12 @@
 package com.atguigu.gmall.manage.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.atguigu.gmall.bean.SkuInfo;
 import com.atguigu.gmall.bean.SpuImage;
 import com.atguigu.gmall.bean.SpuInfo;
+import com.atguigu.gmall.bean.SpuSaleAttr;
 import com.atguigu.gmall.service.SpuInfoService;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -18,6 +17,9 @@ public class SpuInfoManageController {
     @Reference
     private SpuInfoService spuInfoService;
 
+    /**
+     * 仅获取spu信息，不包括图片和销售属性
+     */
     @RequestMapping("spuList")
     public List<SpuInfo> spuList(String catalog3Id){
         SpuInfo spuInfo = new SpuInfo();
@@ -25,14 +27,24 @@ public class SpuInfoManageController {
         return spuInfoService.getSpuInfoList(spuInfo);
     }
 
+    /**
+     * 保存spu信息，包括其中的图片，销售属性和销售属性值\
+     */
     @RequestMapping("saveSpuInfo")
     public String saveSpuInfo(@RequestBody SpuInfo spuInfo){
         spuInfoService.saveSpuInfo(spuInfo);
         return  "OK";
     }
 
+    //图片信息
     @RequestMapping("spuImageList")
     public List<SpuImage> spuImageList(String spuId){
         return spuInfoService.getSpuImageList(spuId);
+    }
+
+    //获取指定spuId的销售属性及其销售属性值
+    @RequestMapping("spuSaleAttrList")
+    public List<SpuSaleAttr> getSpuSaleAttrList(String spuId){
+        return spuInfoService.getSpuSaleAttrList(spuId);
     }
 }
