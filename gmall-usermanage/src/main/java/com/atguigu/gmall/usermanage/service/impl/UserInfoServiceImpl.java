@@ -48,9 +48,9 @@ public class UserInfoServiceImpl implements UserInfoService {
 
     @Override
     public UserInfo login(String loginName, String password) {
-        Example example = new Example(UserInfo.class);
-        example.createCriteria().andEqualTo("loginName",loginName)
-                .andEqualTo("passwd",password);
-        return uim.selectOneByExample(example);
+        UserInfo userInfo = new UserInfo();
+        userInfo.setLoginName(loginName);
+        userInfo.setPasswd(password);
+        return uim.selectOne(userInfo);
     }
 }

@@ -12,6 +12,11 @@ public interface BaseManageService {
 
     List<BaseCatalog3> getCatalog3(String catalog2Id);
 
+    /**
+     *
+     * @param catalog3Id 三级分类ID
+     * @return 三级分类的平台属性
+     */
     List<BaseAttrInfo> getAttrList(String catalog3Id);
 
     /**
@@ -20,9 +25,23 @@ public interface BaseManageService {
      */
     void saveAttrInfo(BaseAttrInfo baseAttrInfo);
 
+    /**
+     *
+     * @param attrId 平台属性ID
+     * @return 指定的平台属性值
+     */
     List<BaseAttrValue> getAttrValueByAttrId(String attrId);
 
+    /**
+     *
+     * @param attrId 平台属性ID
+     * @return 平台属性信息，包括属性值 如果不在指定属性，返回null
+     */
     BaseAttrInfo getAttrInfoById(String attrId);
 
+    /**
+     *
+     * @return 所有销售属性
+     */
     List<BaseSaleAttr> getBaseSaleAttrList();
 }
