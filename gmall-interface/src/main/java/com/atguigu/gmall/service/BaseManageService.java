@@ -24,4 +24,5 @@ public interface BaseManageService {
 
     BaseAttrInfo getAttrInfoById(String attrId);
 
+    List<BaseSaleAttr> getBaseSaleAttrList();
 }

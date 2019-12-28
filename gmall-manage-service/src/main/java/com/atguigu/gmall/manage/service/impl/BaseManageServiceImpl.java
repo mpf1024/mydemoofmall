@@ -24,6 +24,9 @@ public class BaseManageServiceImpl implements BaseManageService {
     @Autowired
     private BaseAttrValueMapper baseAttrValueMapper;
 
+    @Autowired
+    private BaseSaleAttrMapper baseSaleAttrMapper;
+
 
     @Override
     public List<BaseCatalog1> getCatalog1() {
@@ -100,5 +103,10 @@ public class BaseManageServiceImpl implements BaseManageService {
         attrInfo.setAttrValueList(attrValueList);
         // 将属性对象返回
         return attrInfo;
+    }
+
+    @Override
+    public List<BaseSaleAttr> getBaseSaleAttrList() {
+        return baseSaleAttrMapper.selectAll();
     }
 }
