@@ -1,10 +1,7 @@
 package com.atguigu.gmall.manage.service.impl;
 
 import com.alibaba.dubbo.config.annotation.Service;
-import com.atguigu.gmall.bean.SpuImage;
-import com.atguigu.gmall.bean.SpuInfo;
-import com.atguigu.gmall.bean.SpuSaleAttr;
-import com.atguigu.gmall.bean.SpuSaleAttrValue;
+import com.atguigu.gmall.bean.*;
 import com.atguigu.gmall.manage.mapper.SpuImageMapper;
 import com.atguigu.gmall.manage.mapper.SpuInfoMapper;
 import com.atguigu.gmall.manage.mapper.SpuSaleAttrMapper;
@@ -107,5 +104,10 @@ public class SpuInfoServiceImpl implements SpuInfoService {
     @Override
     public List<SpuSaleAttr> getSpuSaleAttrList(String spuId) {
         return spuSaleAttrMapper.selectSpuSaleAttrList(spuId);
+    }
+
+    @Override
+    public List<SpuSaleAttr> getSpuSaleAttrListCheckBySku(SkuInfo skuInfo) {
+        return spuSaleAttrMapper.selectSpuSaleAttrListCheckBySku(skuInfo.getId(),skuInfo.getSpuId());
     }
 }

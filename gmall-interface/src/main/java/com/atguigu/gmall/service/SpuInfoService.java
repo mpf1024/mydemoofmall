@@ -1,5 +1,6 @@
 package com.atguigu.gmall.service;
 
+import com.atguigu.gmall.bean.SkuInfo;
 import com.atguigu.gmall.bean.SpuImage;
 import com.atguigu.gmall.bean.SpuInfo;
 import com.atguigu.gmall.bean.SpuSaleAttr;
@@ -32,4 +33,8 @@ public interface SpuInfoService {
      * 获取指定spuId的销售属性及其销售属性值
      */
     List<SpuSaleAttr> getSpuSaleAttrList(String spuId);
+
+    List<SpuSaleAttr> getSpuSaleAttrListCheckBySku(SkuInfo skuInfo);
+
+
 }

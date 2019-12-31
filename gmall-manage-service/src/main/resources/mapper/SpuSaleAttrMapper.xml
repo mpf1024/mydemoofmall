@@ -10,6 +10,19 @@
         on  sa.spu_id=sv.spu_id and sa.sale_attr_id=sv.sale_attr_id
         where  sa.spu_id=#{spu_id}
     </select>
+    <select  id ="selectSpuSaleAttrListCheckBySku"   resultMap="spuSaleAttrMap">
+        SELECT ssa.id,ssa.spu_id,ssa.sale_attr_name,ssa.sale_attr_id,
+            ssav.id sale_attr_value_id,
+            ssav.sale_attr_value_name,
+        IF(sksav.sku_id IS NULL,0,1)  is_checked
+        FROM spu_sale_attr ssa
+        LEFT JOIN spu_sale_attr_value ssav
+        on ssa.sale_attr_id = ssav.sale_attr_id AND ssav.spu_id =ssa.spu_id
+        LEFT JOIN sku_sale_attr_value sksav
+        on sksav.sale_attr_value_id = ssav.id AND sksav.sku_id=#{skuId}
+        WHERE ssa.spu_id = #{spuId}
+        ORDER BY ssav.sale_attr_id,ssav.id
+    </select>
     <resultMap id="spuSaleAttrMap" type="com.atguigu.gmall.bean.SpuSaleAttr" autoMapping="true">
         <result property="id" column="id" ></result>
         <collection property="spuSaleAttrValueList" ofType="com.atguigu.gmall.bean.SpuSaleAttrValue" autoMapping="true">
