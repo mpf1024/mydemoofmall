@@ -55,7 +55,6 @@
     <dependencyManagement>
 
         <dependencies>
-
             <!--swagger-->
             <dependency>
                 <groupId>io.springfox</groupId>

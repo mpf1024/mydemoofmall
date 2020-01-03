@@ -1,10 +1,13 @@
 package com.atguigu.gmall.manage.service.impl;
 
 import com.alibaba.dubbo.config.annotation.Service;
+import com.alibaba.fastjson.JSON;
 import com.atguigu.gmall.bean.SkuAttrValue;
 import com.atguigu.gmall.bean.SkuImage;
 import com.atguigu.gmall.bean.SkuInfo;
 import com.atguigu.gmall.bean.SkuSaleAttrValue;
+import com.atguigu.gmall.config.RedisUtil;
+import com.atguigu.gmall.manage.constant.ManageConst;
 import com.atguigu.gmall.manage.mapper.SkuAttrValueMapper;
 import com.atguigu.gmall.manage.mapper.SkuImageMapper;
 import com.atguigu.gmall.manage.mapper.SkuInfoMapper;
@@ -12,8 +15,12 @@ import com.atguigu.gmall.manage.mapper.SkuSaleAttrValueMapper;
 import com.atguigu.gmall.service.SkuInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
+import redis.clients.jedis.Jedis;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class SkuInfoServiceImpl implements SkuInfoService {
@@ -26,6 +33,9 @@ public class SkuInfoServiceImpl implements SkuInfoService {
 
     @Autowired
     private SkuSaleAttrValueMapper skuSaleAttrValueMapper;
+
+    @Autowired
+    private RedisUtil redisUtil;
 
     @Override
     @Transactional
@@ -87,13 +97,62 @@ public class SkuInfoServiceImpl implements SkuInfoService {
 
     @Override
     public SkuInfo getSkuInfoById(String skuId) {
-        SkuInfo skuInfo = skuInfoMapper.selectByPrimaryKey(skuId);
-        SkuImage skuImage = new SkuImage();
-        skuImage.setSkuId(skuId);
-        skuInfo.setSkuImageList(skuImageMapper.select(skuImage));
+        SkuInfo skuInfo = null;
+        try (Jedis jedis = redisUtil.getJedis()) {
+            String skuKey = ManageConst.SKUKEY_PREFIX + skuId + ManageConst.SKUKEY_SUFFIX;
+            String skuInfStr = jedis.get(skuKey);
+            if (StringUtils.isEmpty(skuInfStr)){
+                //System.out.println("没有缓存");
+                // 定义key user:userId:lock
+                String skuLockKey=ManageConst.SKUKEY_PREFIX+skuId+ManageConst.SKULOCK_SUFFIX;
+                String skuLockVal = UUID.randomUUID().toString().replace("-", "");
+                // 生成锁
+                String lockKey  = jedis.set(skuLockKey, skuLockVal, "NX", "PX", ManageConst.SKULOCK_EXPIRE_PX);
+                //进入锁
+                if("OK".equals(lockKey)){
+                    //System.out.println("去数据库取数据");
+                    skuInfo = getSkuInfoDB(skuId);//去数据库取数据
+                    jedis.setex(skuKey,ManageConst.SKUKEY_TIMEOUT,JSON.toJSONString(skuInfo));
+                    //解锁
+                    String script ="if redis.call('get', KEYS[1]) == ARGV[1] then return redis.call('del', KEYS[1]) else return 0 end";
+                    jedis.eval(script, Collections.singletonList(skuLockKey),Collections.singletonList(skuLockVal));
+                    return skuInfo;
+                }else {
+                    System.out.println("等待！");
+                    // 等待
+                    Thread.sleep(1000);
+                    // 自旋
+                    return getSkuInfoById(skuId);
+                }
+            }else{
+                //有缓存
+                skuInfo = JSON.parseObject(skuInfStr, SkuInfo.class);
+                return  skuInfo;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        skuInfo =getSkuInfoDB(skuId);//出异常，直接从数据库取数据
         return skuInfo;
     }
 
+    private SkuInfo getSkuInfoDB(String skuId){
+        SkuInfo skuInfo = skuInfoMapper.selectByPrimaryKey(skuId);
+
+        //查询图片信息
+        SkuImage skuImage = new SkuImage();
+        skuImage.setSkuId(skuId);
+        skuInfo.setSkuImageList(skuImageMapper.select(skuImage));
+
+        //查询属性，ES保存需要
+        SkuAttrValue skuAttrValue = new SkuAttrValue();
+        skuAttrValue.setSkuId(skuId);
+        List<SkuAttrValue> skuAttrValues = skuAttrValueMapper.select(skuAttrValue);
+        skuInfo.setSkuAttrValueList(skuAttrValues);
+
+        return skuInfo;
+    }
     @Override
     public List<SkuSaleAttrValue> getSkuSaleAttrValueListBySpu(String spuId) {
         return skuSaleAttrValueMapper.selectSkuSaleAttrValueListBySpu(spuId);

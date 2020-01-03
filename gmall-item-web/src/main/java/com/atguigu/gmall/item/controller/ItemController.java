@@ -39,7 +39,7 @@ public class ItemController {
         model.addAttribute("saleAttrList", spuSaleAttrList);
 
         List<SkuSaleAttrValue> skuSaleAttrValueList = skuInfoService.getSkuSaleAttrValueListBySpu(skuInfo.getSpuId());
-        //把列表变换成 valueid1|valueid2|valueid3 ：skuId  的 哈希表 用于在页面中定位查询
+        //把列表变换成 valueid1|valueid2|valueid3:skuId  的 哈希表 用于在页面中定位查询
         String valueIdsKey = "";
 
         Map<String, String> valuesSkuMap = new HashMap<>();
