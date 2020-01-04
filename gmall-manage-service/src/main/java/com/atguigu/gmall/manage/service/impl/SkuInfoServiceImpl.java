@@ -97,11 +97,15 @@ public class SkuInfoServiceImpl implements SkuInfoService {
 
     @Override
     public SkuInfo getSkuInfoById(String skuId) {
-        SkuInfo skuInfo = null;
+        SkuInfo skuInfo;
         try (Jedis jedis = redisUtil.getJedis()) {
             String skuKey = ManageConst.SKUKEY_PREFIX + skuId + ManageConst.SKUKEY_SUFFIX;
             String skuInfStr = jedis.get(skuKey);
-            if (StringUtils.isEmpty(skuInfStr)){
+            if(skuInfStr!=null){
+                //有缓存
+                skuInfo = JSON.parseObject(skuInfStr, SkuInfo.class);
+                return  skuInfo;
+            }else{
                 //System.out.println("没有缓存");
                 // 定义key user:userId:lock
                 String skuLockKey=ManageConst.SKUKEY_PREFIX+skuId+ManageConst.SKULOCK_SUFFIX;
@@ -112,7 +116,11 @@ public class SkuInfoServiceImpl implements SkuInfoService {
                 if("OK".equals(lockKey)){
                     //System.out.println("去数据库取数据");
                     skuInfo = getSkuInfoDB(skuId);//去数据库取数据
-                    jedis.setex(skuKey,ManageConst.SKUKEY_TIMEOUT,JSON.toJSONString(skuInfo));
+                    if(skuInfo == null){
+                        jedis.setex(skuKey,ManageConst.SKUKEY_TIMEOUT,"");
+                    }else {
+                        jedis.setex(skuKey, ManageConst.SKUKEY_TIMEOUT, JSON.toJSONString(skuInfo));
+                    }
                     //解锁
                     String script ="if redis.call('get', KEYS[1]) == ARGV[1] then return redis.call('del', KEYS[1]) else return 0 end";
                     jedis.eval(script, Collections.singletonList(skuLockKey),Collections.singletonList(skuLockVal));
@@ -124,12 +132,7 @@ public class SkuInfoServiceImpl implements SkuInfoService {
                     // 自旋
                     return getSkuInfoById(skuId);
                 }
-            }else{
-                //有缓存
-                skuInfo = JSON.parseObject(skuInfStr, SkuInfo.class);
-                return  skuInfo;
             }
-
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -139,7 +142,7 @@ public class SkuInfoServiceImpl implements SkuInfoService {
 
     private SkuInfo getSkuInfoDB(String skuId){
         SkuInfo skuInfo = skuInfoMapper.selectByPrimaryKey(skuId);
-
+        if(skuInfo == null){return null;}
         //查询图片信息
         SkuImage skuImage = new SkuImage();
         skuImage.setSkuId(skuId);

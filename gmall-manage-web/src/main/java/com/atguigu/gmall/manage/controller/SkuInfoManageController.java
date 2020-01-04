@@ -39,6 +39,7 @@ public class SkuInfoManageController {
         } catch (IllegalAccessException | InvocationTargetException e) {
             e.printStackTrace();
         }
+        //保存到elasticsearch
         listService.saveSkuInfo(skuESInfo);
     }
 }

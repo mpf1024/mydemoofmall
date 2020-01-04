@@ -8,7 +8,7 @@ import java.util.List;
 @Data
 public class SkuESResult implements Serializable {
     private static final long serialVersionUID = 192321190910L;
-    List<SkuESInfo> skuLsInfoList;
+    List<SkuESInfo> skuESInfoList;
 
     long total;
 
