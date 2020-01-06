@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSON;
 import com.atguigu.gmall.bean.SkuInfo;
 import com.atguigu.gmall.bean.SkuSaleAttrValue;
 import com.atguigu.gmall.bean.SpuSaleAttr;
+import com.atguigu.gmall.service.ListService;
 import com.atguigu.gmall.service.SkuInfoService;
 import com.atguigu.gmall.service.SpuInfoService;
 import org.springframework.stereotype.Controller;
@@ -24,6 +25,9 @@ public class ItemController {
 
     @Reference
     private SpuInfoService spuInfoService;
+
+    @Reference
+    private ListService listService;
 
     public ItemController() {
     }
@@ -58,6 +62,10 @@ public class ItemController {
             }
 
         }
+
+        //更新点击热点
+        listService.incrHotScore(skuId);
+
         //把map变成json串
         String valuesSkuJson = JSON.toJSONString(valuesSkuMap);
 

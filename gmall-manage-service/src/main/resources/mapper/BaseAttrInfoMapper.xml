@@ -21,4 +21,19 @@
         WHERE
            catalog3_id = #{0}
     </select>
+
+    <select id="getBaseAttrInfoByValueIds" resultMap="baseAttrInfoMap">
+        SELECT attrInfo.id,
+	           attrInfo.attr_name,
+			   attrVal.id AS attr_value_id,
+			   attrVal.value_name,
+			   attrVal.attr_id
+        FROM base_attr_value attrVal
+        LEFT JOIN base_attr_info attrInfo
+        ON attrVal.attr_id = attrInfo.id
+        WHERE attrVal.id in
+        <foreach collection="valueIds" item="valueId" separator="," open="(" close=")">
+            #{valueId}
+        </foreach>
+    </select>
 </mapper>

@@ -4,11 +4,13 @@ import com.alibaba.dubbo.config.annotation.Service;
 import com.atguigu.gmall.bean.SkuESInfo;
 import com.atguigu.gmall.bean.SkuESParams;
 import com.atguigu.gmall.bean.SkuESResult;
+import com.atguigu.gmall.config.RedisUtil;
 import com.atguigu.gmall.service.ListService;
 import io.searchbox.client.JestClient;
 import io.searchbox.core.Index;
 import io.searchbox.core.Search;
 import io.searchbox.core.SearchResult;
+import io.searchbox.core.Update;
 import io.searchbox.core.search.aggregation.MetricAggregation;
 import io.searchbox.core.search.aggregation.TermsAggregation;
 import org.elasticsearch.index.query.BoolQueryBuilder;
@@ -21,6 +23,7 @@ import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.elasticsearch.search.highlight.HighlightBuilder;
 import org.elasticsearch.search.sort.SortOrder;
 import org.springframework.beans.factory.annotation.Autowired;
+import redis.clients.jedis.Jedis;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -31,6 +34,9 @@ public class ListServiceImpl implements ListService {
 
     @Autowired
     private JestClient jestClient;
+
+    @Autowired
+    private RedisUtil redisUtil;
 
     public static final String ES_INDEX="gmall";
 
@@ -61,6 +67,32 @@ public class ListServiceImpl implements ListService {
 
         assert searchResult != null;
         return makeResultForSearch(skuESParams, searchResult);
+    }
+
+    @Override
+    public void incrHotScore(String skuId) {
+        Jedis jedis = redisUtil.getJedis();
+        int timesToEs=10;
+        Double hotScore = jedis.zincrby("hotScore", 1, "skuId:" + skuId);
+        if(hotScore%timesToEs==0){//每10次更新ES一次
+            updateHotScore(skuId,  Math.round(hotScore));
+        }
+    }
+
+    //更新点击热点数据
+    private void updateHotScore(String skuId, long hotScore) {
+        String updateJson="{\n" +
+                "   \"doc\":{\n" +
+                "     \"hotScore\":"+hotScore+"\n" +
+                "   }\n" +
+                "}";
+
+        Update update = new Update.Builder(updateJson).index("gmall").type("SkuInfo").id(skuId).build();
+        try {
+            jestClient.execute(update);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     //封装查询结果
@@ -140,7 +172,7 @@ public class ListServiceImpl implements ListService {
         int from = (skuESParams.getPageNo()-1)*skuESParams.getPageSize();
         searchSourceBuilder.from(from);
         searchSourceBuilder.size(skuESParams.getPageSize());
-        // 设置按照热度
+        // 设置按照热度排序
         searchSourceBuilder.sort("hotScore", SortOrder.DESC);
 
         // 设置聚合

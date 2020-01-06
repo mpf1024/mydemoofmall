@@ -56,6 +56,13 @@ public class BaseManageServiceImpl implements BaseManageService {
 
     }
 
+    @Override
+    public List<BaseAttrInfo> getAttrList(List<String> valueIds) {
+        if(valueIds != null && valueIds.size() > 0)
+            return baseAttrInfoMapper.getBaseAttrInfoByValueIds(valueIds);
+        return null;
+    }
+
     @Transactional
     @Override
     public void saveAttrInfo(BaseAttrInfo baseAttrInfo) {

@@ -15,5 +15,5 @@ public class SkuESParams implements Serializable {
 
     int pageNo=1;
 
-    int pageSize=20;
+    int pageSize=8;
 }

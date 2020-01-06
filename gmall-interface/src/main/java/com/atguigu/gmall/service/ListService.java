@@ -17,4 +17,10 @@ public interface ListService {
      * @param skuESParams -
      */
     SkuESResult search(SkuESParams skuESParams);
+
+    /**
+     * 更新redis热点点击计数
+     * @param skuId 商品ID
+     */
+    void incrHotScore(String skuId);
 }

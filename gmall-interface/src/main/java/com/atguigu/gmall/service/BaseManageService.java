@@ -20,6 +20,12 @@ public interface BaseManageService {
     List<BaseAttrInfo> getAttrList(String catalog3Id);
 
     /**
+     * 根据属性值ID获取平台属性的名字和值
+     * @param valueIds 平台属性值的ID
+     */
+    List<BaseAttrInfo> getAttrList(List<String> valueIds);
+
+    /**
      * 根据ID是否存在来保存或更新基本平台属性和属性值
      * @param baseAttrInfo 属性信息
      */
@@ -44,4 +50,6 @@ public interface BaseManageService {
      * @return 所有基本销售属性
      */
     List<BaseSaleAttr> getBaseSaleAttrList();
+
+
 }
