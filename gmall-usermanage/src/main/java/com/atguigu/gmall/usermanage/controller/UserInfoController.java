@@ -1,12 +1,10 @@
 package com.atguigu.gmall.usermanage.controller;
 
-import com.atguigu.gmall.bean.UserInfo;
+import com.atguigu.gmall.bean.user.UserInfo;
 import com.atguigu.gmall.service.UserInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.sql.DataSource;
-import java.sql.SQLException;
 import java.util.List;
 
 @RestController
@@ -75,7 +73,7 @@ public class UserInfoController {
      *
      */
     @PostMapping("login")
-    public UserInfo login(String loginName, String password){
-        return us.login(loginName, password);
+    public UserInfo login(UserInfo userInfo){
+        return us.login(userInfo);
     }
 }

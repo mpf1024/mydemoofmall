@@ -1,6 +1,6 @@
 package com.atguigu.gmall.service;
 
-import com.atguigu.gmall.bean.*;
+import com.atguigu.gmall.bean.base.*;
 
 import java.util.List;
 

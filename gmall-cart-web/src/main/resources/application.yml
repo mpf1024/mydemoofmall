@@ -1,0 +1,22 @@
+server:
+  port: 8011
+
+spring:
+  dubbo:
+    application:
+      name: cart-web
+    registry:
+      protocol: zookeeper
+      address: 192.168.150.129:2181
+    base-package: com.atguigu.gmall
+    protocol:
+      name: dubbo
+    consumer:
+      timeout: 10000
+      check: false
+  thymeleaf:
+    mode: LEGACYHTML5
+    cache: false
+logging:
+  level:
+    root: info

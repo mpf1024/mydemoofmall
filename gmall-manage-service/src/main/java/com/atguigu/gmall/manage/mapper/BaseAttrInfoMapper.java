@@ -1,6 +1,6 @@
 package com.atguigu.gmall.manage.mapper;
 
-import com.atguigu.gmall.bean.BaseAttrInfo;
+import com.atguigu.gmall.bean.base.BaseAttrInfo;
 import org.apache.ibatis.annotations.Param;
 import tk.mybatis.mapper.common.Mapper;
 

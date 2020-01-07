@@ -2,9 +2,9 @@ package com.atguigu.gmall.item.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.fastjson.JSON;
-import com.atguigu.gmall.bean.SkuInfo;
-import com.atguigu.gmall.bean.SkuSaleAttrValue;
-import com.atguigu.gmall.bean.SpuSaleAttr;
+import com.atguigu.gmall.bean.sku.SkuInfo;
+import com.atguigu.gmall.bean.sku.SkuSaleAttrValue;
+import com.atguigu.gmall.bean.spu.SpuSaleAttr;
 import com.atguigu.gmall.service.ListService;
 import com.atguigu.gmall.service.SkuInfoService;
 import com.atguigu.gmall.service.SpuInfoService;
@@ -28,9 +28,6 @@ public class ItemController {
 
     @Reference
     private ListService listService;
-
-    public ItemController() {
-    }
 
     @RequestMapping("{skuId}.html")
     public String skuInfoPage(@PathVariable(value = "skuId") String skuId
@@ -60,9 +57,7 @@ public class ItemController {
                 valuesSkuMap.put(valueIdsKey, skuSaleAttrValue.getSkuId());
                 valueIdsKey = "";
             }
-
         }
-
         //更新点击热点
         listService.incrHotScore(skuId);
 
@@ -72,6 +67,5 @@ public class ItemController {
         model.addAttribute("valuesSkuJson", valuesSkuJson);
         return "item";
     }
-
 
 }

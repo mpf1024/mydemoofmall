@@ -2,10 +2,10 @@ package com.atguigu.gmall.manage.service.impl;
 
 import com.alibaba.dubbo.config.annotation.Service;
 import com.alibaba.fastjson.JSON;
-import com.atguigu.gmall.bean.SkuAttrValue;
-import com.atguigu.gmall.bean.SkuImage;
-import com.atguigu.gmall.bean.SkuInfo;
-import com.atguigu.gmall.bean.SkuSaleAttrValue;
+import com.atguigu.gmall.bean.sku.SkuAttrValue;
+import com.atguigu.gmall.bean.sku.SkuImage;
+import com.atguigu.gmall.bean.sku.SkuInfo;
+import com.atguigu.gmall.bean.sku.SkuSaleAttrValue;
 import com.atguigu.gmall.config.RedisUtil;
 import com.atguigu.gmall.manage.constant.ManageConst;
 import com.atguigu.gmall.manage.mapper.SkuAttrValueMapper;
@@ -15,7 +15,6 @@ import com.atguigu.gmall.manage.mapper.SkuSaleAttrValueMapper;
 import com.atguigu.gmall.service.SkuInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StringUtils;
 import redis.clients.jedis.Jedis;
 
 import java.util.Collections;

@@ -1,10 +1,9 @@
 package com.atguigu.gmall.manage.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
-import com.atguigu.gmall.bean.SkuInfo;
-import com.atguigu.gmall.bean.SpuImage;
-import com.atguigu.gmall.bean.SpuInfo;
-import com.atguigu.gmall.bean.SpuSaleAttr;
+import com.atguigu.gmall.bean.spu.SpuImage;
+import com.atguigu.gmall.bean.spu.SpuInfo;
+import com.atguigu.gmall.bean.spu.SpuSaleAttr;
 import com.atguigu.gmall.service.SpuInfoService;
 import org.springframework.web.bind.annotation.*;
 

@@ -1,16 +1,14 @@
 package com.atguigu.gmall.listweb.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
-import com.alibaba.fastjson.JSON;
-import com.atguigu.gmall.bean.BaseAttrInfo;
-import com.atguigu.gmall.bean.BaseAttrValue;
-import com.atguigu.gmall.bean.SkuESParams;
-import com.atguigu.gmall.bean.SkuESResult;
+import com.atguigu.gmall.bean.base.BaseAttrInfo;
+import com.atguigu.gmall.bean.base.BaseAttrValue;
+import com.atguigu.gmall.bean.sku.SkuESParams;
+import com.atguigu.gmall.bean.sku.SkuESResult;
 import com.atguigu.gmall.service.BaseManageService;
 import com.atguigu.gmall.service.ListService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.*;
@@ -25,15 +23,12 @@ public class ListWebController {
 
     @RequestMapping("list.html")
     public String getList(SkuESParams skuESParams, Model model){
-        String[] idsArr = skuESParams.getValueId();
-        if(idsArr!=null&&idsArr.length >0){
-            List<String> list = Arrays.asList(idsArr);
-            HashSet<String> valueIdSet = new HashSet<>(list);
-            String[] ids = new String[valueIdSet.size()];
-            skuESParams.setValueId(valueIdSet.toArray(ids));
-        }
+
+        checkoutParam(skuESParams);//检验一下表单数据
+
         //ES查询结果
         SkuESResult skuESResult = listService.search(skuESParams);
+
         //商品信息
         model.addAttribute("skuESInfoList",skuESResult.getSkuESInfoList());
         //分页信息
@@ -79,6 +74,17 @@ public class ListWebController {
         model.addAttribute("urlParam",urlParam);
         model.addAttribute("keyword",skuESParams.getKeyword());
         return "list";
+    }
+
+    private void checkoutParam(SkuESParams skuESParams) {
+        String[] idsArr = skuESParams.getValueId();
+        if(idsArr!=null&&idsArr.length >0){
+            List<String> list = Arrays.asList(idsArr);
+            //去掉重复的valueId
+            HashSet<String> valueIdSet = new HashSet<>(list);
+            String[] ids = new String[valueIdSet.size()];
+            skuESParams.setValueId(valueIdSet.toArray(ids));
+        }
     }
 
     //拼接urlParam

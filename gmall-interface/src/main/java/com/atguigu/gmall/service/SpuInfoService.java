@@ -1,9 +1,9 @@
 package com.atguigu.gmall.service;
 
-import com.atguigu.gmall.bean.SkuInfo;
-import com.atguigu.gmall.bean.SpuImage;
-import com.atguigu.gmall.bean.SpuInfo;
-import com.atguigu.gmall.bean.SpuSaleAttr;
+import com.atguigu.gmall.bean.sku.SkuInfo;
+import com.atguigu.gmall.bean.spu.SpuImage;
+import com.atguigu.gmall.bean.spu.SpuInfo;
+import com.atguigu.gmall.bean.spu.SpuSaleAttr;
 
 import java.util.List;
 

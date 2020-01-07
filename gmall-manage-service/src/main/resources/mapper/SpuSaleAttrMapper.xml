@@ -23,9 +23,9 @@
         WHERE ssa.spu_id = #{spuId}
         ORDER BY ssav.sale_attr_id,ssav.id
     </select>
-    <resultMap id="spuSaleAttrMap" type="com.atguigu.gmall.bean.SpuSaleAttr" autoMapping="true">
+    <resultMap id="spuSaleAttrMap" type="com.atguigu.gmall.bean.spu.SpuSaleAttr" autoMapping="true">
         <result property="id" column="id" ></result>
-        <collection property="spuSaleAttrValueList" ofType="com.atguigu.gmall.bean.SpuSaleAttrValue" autoMapping="true">
+        <collection property="spuSaleAttrValueList" ofType="com.atguigu.gmall.bean.spu.SpuSaleAttrValue" autoMapping="true">
             <result property="id" column="sale_attr_value_id" ></result>
         </collection>
     </resultMap>

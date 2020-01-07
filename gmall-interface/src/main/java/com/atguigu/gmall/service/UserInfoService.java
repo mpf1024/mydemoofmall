@@ -1,6 +1,6 @@
 package com.atguigu.gmall.service;
 
-import com.atguigu.gmall.bean.UserInfo;
+import com.atguigu.gmall.bean.user.UserInfo;
 
 import java.util.List;
 
@@ -40,12 +40,14 @@ public interface UserInfoService {
     void deleteById(String id);
 
     /**
-     * 查询登录
-     *
-     * @param loginName 登录名
-     * @param password  密码
-     * @return 若存在用户，返回对应的用户，若不存在，返回null
+     * 执行登录并将UserInfo放入redis中
+     * @param userInfo -
      */
-    UserInfo login(String loginName, String password);
+    UserInfo login(UserInfo userInfo);
 
+    /**
+     * 通过userId去redis中读取对应的信息验证登录状态
+     * @param userId 用户ID
+     */
+    UserInfo verify(String userId);
 }

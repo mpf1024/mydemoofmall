@@ -1,6 +1,6 @@
 package com.atguigu.gmall.manage.mapper;
 
-import com.atguigu.gmall.bean.SkuSaleAttrValue;
+import com.atguigu.gmall.bean.sku.SkuSaleAttrValue;
 import tk.mybatis.mapper.common.Mapper;
 
 import java.util.List;

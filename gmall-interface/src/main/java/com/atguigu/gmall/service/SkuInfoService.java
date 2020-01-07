@@ -1,7 +1,7 @@
 package com.atguigu.gmall.service;
 
-import com.atguigu.gmall.bean.SkuInfo;
-import com.atguigu.gmall.bean.SkuSaleAttrValue;
+import com.atguigu.gmall.bean.sku.SkuInfo;
+import com.atguigu.gmall.bean.sku.SkuSaleAttrValue;
 
 import java.util.List;
 

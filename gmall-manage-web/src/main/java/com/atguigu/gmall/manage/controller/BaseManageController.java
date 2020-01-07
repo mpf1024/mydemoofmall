@@ -1,7 +1,7 @@
 package com.atguigu.gmall.manage.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
-import com.atguigu.gmall.bean.*;
+import com.atguigu.gmall.bean.base.*;
 import com.atguigu.gmall.service.BaseManageService;
 import org.springframework.web.bind.annotation.*;
 

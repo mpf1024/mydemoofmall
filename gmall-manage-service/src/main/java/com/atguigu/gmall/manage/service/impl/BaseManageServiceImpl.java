@@ -1,7 +1,7 @@
 package com.atguigu.gmall.manage.service.impl;
 
 import com.alibaba.dubbo.config.annotation.Service;
-import com.atguigu.gmall.bean.*;
+import com.atguigu.gmall.bean.base.*;
 import com.atguigu.gmall.manage.mapper.*;
 import com.atguigu.gmall.service.BaseManageService;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,8 +1,8 @@
 package com.atguigu.gmall.manage.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
-import com.atguigu.gmall.bean.SkuESInfo;
-import com.atguigu.gmall.bean.SkuInfo;
+import com.atguigu.gmall.bean.sku.SkuESInfo;
+import com.atguigu.gmall.bean.sku.SkuInfo;
 import com.atguigu.gmall.service.ListService;
 import com.atguigu.gmall.service.SkuInfoService;
 
@@ -30,7 +30,7 @@ public class SkuInfoManageController {
     }
 
     @RequestMapping("onSale")
-    public void onSale(String skuId){
+    public String onSale(String skuId){
         SkuInfo skuInfo = skuInfoService.getSkuInfoById(skuId);
         SkuESInfo skuESInfo = new SkuESInfo();
         // 属性拷贝
@@ -41,5 +41,6 @@ public class SkuInfoManageController {
         }
         //保存到elasticsearch
         listService.saveSkuInfo(skuESInfo);
+        return "ok,onsale:skuId=" + skuId;
     }
 }

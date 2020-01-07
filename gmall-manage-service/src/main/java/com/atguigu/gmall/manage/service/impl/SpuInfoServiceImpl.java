@@ -1,7 +1,11 @@
 package com.atguigu.gmall.manage.service.impl;
 
 import com.alibaba.dubbo.config.annotation.Service;
-import com.atguigu.gmall.bean.*;
+import com.atguigu.gmall.bean.sku.SkuInfo;
+import com.atguigu.gmall.bean.spu.SpuImage;
+import com.atguigu.gmall.bean.spu.SpuInfo;
+import com.atguigu.gmall.bean.spu.SpuSaleAttr;
+import com.atguigu.gmall.bean.spu.SpuSaleAttrValue;
 import com.atguigu.gmall.manage.mapper.SpuImageMapper;
 import com.atguigu.gmall.manage.mapper.SpuInfoMapper;
 import com.atguigu.gmall.manage.mapper.SpuSaleAttrMapper;

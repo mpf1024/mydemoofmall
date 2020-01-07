@@ -1,8 +1,8 @@
 package com.atguigu.gmall.service;
 
-import com.atguigu.gmall.bean.SkuESInfo;
-import com.atguigu.gmall.bean.SkuESParams;
-import com.atguigu.gmall.bean.SkuESResult;
+import com.atguigu.gmall.bean.sku.SkuESInfo;
+import com.atguigu.gmall.bean.sku.SkuESParams;
+import com.atguigu.gmall.bean.sku.SkuESResult;
 
 public interface ListService {
 

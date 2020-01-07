@@ -14,7 +14,7 @@
         AND si.spu_id = #{0}
         ORDER BY si.id ,ssav.sale_attr_id
     </select>
-    <resultMap id="skuSaleAttrValueMap" type="com.atguigu.gmall.bean.SkuSaleAttrValue" autoMapping="true">
+    <resultMap id="skuSaleAttrValueMap" type="com.atguigu.gmall.bean.sku.SkuSaleAttrValue" autoMapping="true">
         <result property="id" column="id" ></result>
     </resultMap>
 </mapper>

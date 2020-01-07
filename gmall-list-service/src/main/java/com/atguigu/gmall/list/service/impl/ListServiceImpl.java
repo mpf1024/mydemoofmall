@@ -1,9 +1,9 @@
 package com.atguigu.gmall.list.service.impl;
 
 import com.alibaba.dubbo.config.annotation.Service;
-import com.atguigu.gmall.bean.SkuESInfo;
-import com.atguigu.gmall.bean.SkuESParams;
-import com.atguigu.gmall.bean.SkuESResult;
+import com.atguigu.gmall.bean.sku.SkuESInfo;
+import com.atguigu.gmall.bean.sku.SkuESParams;
+import com.atguigu.gmall.bean.sku.SkuESResult;
 import com.atguigu.gmall.config.RedisUtil;
 import com.atguigu.gmall.service.ListService;
 import io.searchbox.client.JestClient;
