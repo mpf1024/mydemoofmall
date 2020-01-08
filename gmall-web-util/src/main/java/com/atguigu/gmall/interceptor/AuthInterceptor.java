@@ -43,13 +43,13 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
         LoginRequire methodAnnotation = handlerMethod.getMethodAnnotation(LoginRequire.class);
         if(methodAnnotation!=null){
             String salt = request.getHeader("X-forwarded-for");
-            String url = WebConst.VERIFY_ADDRESS + "?token=" + token + "&currentIp=" + salt;
+            String url = WebConst.VERIFY_ADDRESS + "?token=" + token + "&salt=" + salt;
             String result = HttpClientUtil.doGet(url);//验证登录状态
             if("success".equals(result)){
                 //已登录且没有过期
                 Map map = getUserInfoByToken(token);//获取token中的user信息
-                Object nickName = map.get("userId");
-                request.setAttribute("userId",nickName);
+                Object userId = map.get("userId");
+                request.setAttribute("userId",userId);
             }else{
                 if(methodAnnotation.autoRedirect()){
                     //重定向到登录页面

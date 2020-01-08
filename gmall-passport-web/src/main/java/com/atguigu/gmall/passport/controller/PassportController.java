@@ -35,25 +35,26 @@ public class PassportController {
     @ResponseBody
     public String login(UserInfo userInfo, HttpServletRequest request) {
         // 取得ip地址 访问时要用passport.gmall.com,才会走nginx中设置请求头
-        String remoteAddr = request.getHeader("X-forwarded-for");
+        String salt = request.getHeader("X-forwarded-for");
         UserInfo user = userInfoService.login(userInfo);
         String token = "fail";
         if (user != null) {
             Map<String, Object> map = new HashMap<>();
             map.put("userId", user.getId());
             map.put("nickName", user.getNickName());
-            token = JwtUtil.encode(signKey, map, remoteAddr);
+            token = JwtUtil.encode(signKey, map, salt);
         }
         return token;
     }
 
+    //验证登录状态
     @RequestMapping("verify")
     @ResponseBody
     public String verify(HttpServletRequest request){
         String token = request.getParameter("token");//获取token
-        String currentIp = request.getParameter("currentIp");
+        String salt = request.getParameter("salt");
         // 检查token
-        Map<String, Object> map = JwtUtil.decode(token, signKey, currentIp);
+        Map<String, Object> map = JwtUtil.decode(token, signKey, salt);
         if (map!=null){
             // 检查redis信息
             String userId = (String) map.get("userId");

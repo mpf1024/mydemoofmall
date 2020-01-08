@@ -21,6 +21,10 @@ spring:
     host: 192.168.150.129
     port: 6379
     timeout: 20000
+mybatis:
+  mapper-locations: classpath:mapper/*Mapper.xml
+  configuration:
+    map-underscore-to-camel-case: true
 logging:
   level:
     root: info

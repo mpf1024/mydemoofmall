@@ -62,7 +62,7 @@ public class CookieUtil {
         String domainName = null;
 
         String serverName = request.getRequestURL().toString();
-        if (serverName == null || serverName.equals("")) {
+        if (serverName.equals("")) {
             domainName = "";
         } else {
             serverName = serverName.toLowerCase();
@@ -74,7 +74,7 @@ public class CookieUtil {
             if (len > 3) {
                 // www.xxx.com.cn
                 domainName = domains[len - 3] + "." + domains[len - 2] + "." + domains[len - 1];
-            } else if (len <= 3 && len > 1) {
+            } else if (len > 1) {
                 // xxx.com or xxx.cn
                 domainName = domains[len - 2] + "." + domains[len - 1];
             } else {
@@ -82,8 +82,8 @@ public class CookieUtil {
             }
         }
 
-        if (domainName != null && domainName.indexOf(":") > 0) {
-            String[] ary = domainName.split("\\:");
+        if (domainName.indexOf(":") > 0) {
+            String[] ary = domainName.split(":");
             domainName = ary[0];
         }
         //System.out.println("domainName = " + domainName);
