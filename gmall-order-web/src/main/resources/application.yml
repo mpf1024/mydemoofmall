@@ -1,0 +1,39 @@
+server:
+  port: 8001
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: 123456
+    type: com.alibaba.druid.pool.DruidDataSource
+    url: jdbc:mysql://192.168.150.129:3306/gmall?useSSL=false&serverTimezone=GMT%2B8
+  dubbo:
+    application:
+      name: order-web
+    registry:
+      protocol: zookeeper
+      address: 192.168.150.129:2181
+    base-package: com.atguigu.gmall
+    protocol:
+      name: dubbo
+    consumer:
+      timeout: 10000
+      check: false
+  redis:
+    host: 192.168.150.129
+    port: 6379
+    timeout: 20000
+  thymeleaf:
+    cache: false
+    mode: LEGACYHTML5
+
+mybatis:
+  mapper-locations: classpath:mapper/*Mapper.xml
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+logging:
+  level:
+    root: info
+mapper:
+  enum-as-simple-type: true
