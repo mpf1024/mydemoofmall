@@ -68,12 +68,4 @@ public class UserInfoController {
         return id;
     }
 
-    /**
-     *  根据登录名和密码查询
-     *
-     */
-    @PostMapping("login")
-    public UserInfo login(UserInfo userInfo){
-        return us.login(userInfo);
-    }
 }

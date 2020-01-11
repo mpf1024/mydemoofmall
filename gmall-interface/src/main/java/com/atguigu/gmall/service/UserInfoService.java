@@ -1,5 +1,6 @@
 package com.atguigu.gmall.service;
 
+import com.atguigu.gmall.bean.user.UserAddress;
 import com.atguigu.gmall.bean.user.UserInfo;
 
 import java.util.List;
@@ -50,4 +51,10 @@ public interface UserInfoService {
      * @param userId 用户ID
      */
     UserInfo verify(String userId);
+
+    /**
+     * 查询用户收货地址信息
+     * @param userId 用户ID
+     */
+    List<UserAddress> getUserAddressByUserId(String userId);
 }

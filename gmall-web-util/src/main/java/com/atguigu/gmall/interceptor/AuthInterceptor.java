@@ -32,34 +32,35 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
             token = CookieUtil.getCookieValue(request,"token",false);
         }
 
+        Map map = null;
         if(token != null){
-            Map map = getUserInfoByToken(token);//获取token中的user信息
-            Object nickName = map.get("nickName");
-            request.setAttribute("nickName",nickName);
+            String salt = request.getHeader("X-forwarded-for");
+            String url = WebConst.VERIFY_ADDRESS + "?token=" + token + "&salt=" + salt;
+            String result = HttpClientUtil.doGet(url);//验证登录状态
+            if("success".equals(result)) {//已经登录
+                map = getUserInfoByToken(token);//获取token中的user信息
+                Object nickName = map.get("nickName");
+                request.setAttribute("nickName",nickName);
+            }
         }
 
         //获取注解LoginRequire
         HandlerMethod handlerMethod = (HandlerMethod) o;
         LoginRequire methodAnnotation = handlerMethod.getMethodAnnotation(LoginRequire.class);
         if(methodAnnotation!=null){
-            String salt = request.getHeader("X-forwarded-for");
-            String url = WebConst.VERIFY_ADDRESS + "?token=" + token + "&salt=" + salt;
-            String result = HttpClientUtil.doGet(url);//验证登录状态
-            if("success".equals(result)){
-                //已登录且没有过期
-                Map map = getUserInfoByToken(token);//获取token中的user信息
+            if(map != null)
+            {   //已登录需要userId
                 Object userId = map.get("userId");
                 request.setAttribute("userId",userId);
-            }else{
+            }else {
                 if(methodAnnotation.autoRedirect()){
-                    //重定向到登录页面
+                    //未登录且要求登录，重定向到登录页面
                     String requestUrl = request.getRequestURL().toString();
                     String encodeURL = URLEncoder.encode(requestUrl, "UTF-8");
                     response.sendRedirect(WebConst.LOGIN_ADDRESS + "?originUrl=" + encodeURL);
                     return  false;
                 }
             }
-
         }
         return true;
     }

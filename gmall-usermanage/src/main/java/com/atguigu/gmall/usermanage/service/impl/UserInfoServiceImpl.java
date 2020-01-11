@@ -2,9 +2,11 @@ package com.atguigu.gmall.usermanage.service.impl;
 
 import com.alibaba.dubbo.config.annotation.Service;
 import com.alibaba.fastjson.JSON;
+import com.atguigu.gmall.bean.user.UserAddress;
 import com.atguigu.gmall.bean.user.UserInfo;
 import com.atguigu.gmall.config.RedisUtil;
 import com.atguigu.gmall.service.UserInfoService;
+import com.atguigu.gmall.usermanage.mapper.UserAddressMapper;
 import com.atguigu.gmall.usermanage.mapper.UserInfoMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.DigestUtils;
@@ -17,6 +19,9 @@ public class UserInfoServiceImpl implements UserInfoService {
 
     @Autowired
     private UserInfoMapper uim;
+
+    @Autowired
+    private UserAddressMapper userAddressMapper;
 
     @Autowired
     private RedisUtil redisUtil;
@@ -88,5 +93,12 @@ public class UserInfoServiceImpl implements UserInfoService {
         }
 
         return null;
+    }
+
+    @Override
+    public List<UserAddress> getUserAddressByUserId(String userId) {
+        Example example = new Example(UserAddress.class);
+        example.createCriteria().andEqualTo("userId",userId);
+        return userAddressMapper.selectByExample(example);
     }
 }

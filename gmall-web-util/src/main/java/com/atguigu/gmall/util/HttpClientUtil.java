@@ -12,11 +12,9 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-
 public class HttpClientUtil {
 
     public static String doGet(String url)   {
-
         // 创建Httpclient对象
         CloseableHttpClient httpclient = HttpClients.createDefault();
         // 创建http GET请求
@@ -41,7 +39,6 @@ public class HttpClientUtil {
 
         return  null;
     }
-
 
     public static void download(String url,String fileName)   {
 

@@ -87,7 +87,7 @@ public class ListServiceImpl implements ListService {
                 "   }\n" +
                 "}";
 
-        Update update = new Update.Builder(updateJson).index("gmall").type("SkuInfo").id(skuId).build();
+        Update update = new Update.Builder(updateJson).index(ES_INDEX).type(ES_TYPE).id(skuId).build();
         try {
             jestClient.execute(update);
         } catch (IOException e) {

@@ -17,13 +17,16 @@
 
             <ul class="header-left">
                 <li>
-
                     <a href="">首页</a>
                 </li>
-
             </ul>
             <ul class="header-right">
-                <li><a href="../passport.gmall.com\index?originUrl=http://cart.gmall.com/cartList" style="color: red;">你好，请登录</a></li>
+                <li>
+                    <span th:if="${nickName}!=null" th:text="${nickName}"></span>
+                    <a href="http://passport.gmall.com/index.html?originUrl=http%3A%2F%2Fcart.gmall.com%2FcartList" style="color: red;" th:unless="${nickName}!=null">
+                        你好，请登录
+                    </a>
+                </li>
                 <li><a href="../注册页面\index.html" >免费注册</a></li>
                 <li class="spacer"></li>
                 <li><a href="">我的订单</a></li>
@@ -52,9 +55,9 @@
                 <input type="button" value="搜索" class="one_right_btn">
             </div>
         </div>
-        <div class="one_search_load"    >
+        <div class="one_search_load"   th:if="${nickName}==null" >
             <img src="./img/shop_07.jpg" class="one_load_wraing">
-            <span>您还没有登录！登录后购物车的商品将保存到您账号中</span>
+            <span >您还没有登录！登录后购物车的商品将保存到您账号中</span>
             <a href="#"><input type="button" onclick="login()" value="立即登录" class="one_load_btn"></a>
         </div>
     </div>
@@ -102,12 +105,12 @@
                             </li>
                             <li>
                                 <p>
-                                    <span>+</span>
-                                    <span th:text="${cartInfo.skuNum}">5</span>
                                     <span>-</span>
+                                    <span th:text="${cartInfo.skuNum}">5</span>
+                                    <span>+</span>
                                 </p>
                             </li>
-                            <li style="font-weight:bold"><p class="zj"  th:text="${cartInfo.skuNum}*${cartInfo.skuPrice}">￥22995.00</p></li>
+                            <li style="font-weight:bold"><p class="zj"  th:text="'￥' + ${cartInfo.skuNum}*${cartInfo.skuPrice}">￥22995.00</p></li>
                             <li>
                                 <p>删除</p>
                             </li>
@@ -139,7 +142,7 @@
 
                 </ol>
             </div>
-            <div><button  onclick="toTrade()" type="button">去结算</button></div>
+            <div><button  onclick="toTrade()" type="button" id="tradeBtn">去结算</button></div>
         </div>
     </div>
 </div>
@@ -198,27 +201,6 @@
         <dd>没有下柜商品!</dd>
     </dl>
 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <!--底部-->
 
 <div class="one_footer">
@@ -241,7 +223,7 @@
     }
 
     function checkSku( chkbox){
-        console.log($(chkbox));
+        //console.log($(chkbox));
        var skuId= $(chkbox).attr("value");
        var checked=$(chkbox).prop("checked");
        var isCheckedFlag="0";
@@ -249,14 +231,13 @@
            isCheckedFlag="1";
        }
         var param="isChecked="+isCheckedFlag+"&"+"skuId="+skuId;
-        console.log(param);
+        //console.log(param);
         $.post("checkCart",param,function (data) {
+
             sumSumPrice();
         });
 
     }
-
-
 
 /*    //购物车结算固定定位
     $(document).scroll(function(){
@@ -604,7 +585,6 @@
 
     //封装总价钱函数
     function sumSumPrice(){
-        console.log("计算总价");
         var zzj=0;
         $(".check").each(function () {
 
@@ -617,6 +597,11 @@
             }
             $(".fnt").html("￥"+zzj+".00")
         })
+        // if(zzj == 0){
+        //     $("#tradeBtn").attr("disabled",false);
+        // }else{
+        //     $("#tradeBtn").attr("disabled",true);
+        // }
 
 /*        $(".One_ShopCon ul li>div:nth-child(2) ol li:nth-child(5) .zj").each(function(){
             kong+=parseFloat($(this).html().substring(1))
@@ -654,15 +639,6 @@
     $(".nmbd dd:last-child button:last-child").click(function(){
         $(this).parent().parent().slideUp(100)
     })
-
-
-
-
-
-
-
-
-
 
     //active
     $(".one_main_div1 .one_main_ul>li").mouseover(function(){
@@ -717,6 +693,7 @@
             $(".slider>ul>li").eq(paging).fadeIn(1000).siblings("li").fadeOut(1000);
 
         })
+        sumSumPrice();
     });
     $(".fade li>div a").mouseover(function(){
         $(this).children("p").children("img").attr("src","img/one_mian_gwc2.png")
