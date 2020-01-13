@@ -102,4 +102,9 @@ public class OrderController {
         // 重定向
         return "redirect://payment.gmall.com/index?orderId="+orderId;
     }
+
+    @RequestMapping("/list")
+    public String list(){
+        return "list";
+    }
 }
