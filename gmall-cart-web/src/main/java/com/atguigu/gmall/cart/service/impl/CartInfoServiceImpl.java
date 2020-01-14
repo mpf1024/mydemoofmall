@@ -142,7 +142,7 @@ public class CartInfoServiceImpl implements CartInfoService {
             }
         }
 
-        deleteCartList(tempUserId);//删除为登录购物车数据
+        deleteCartList(tempUserId);//删除未登录购物车数据
 
         return loadCartCache(userId);
     }
