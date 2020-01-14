@@ -22,10 +22,6 @@ import javax.jms.MapMessage;
 import javax.jms.TextMessage;
 import java.util.*;
 
-/**
- * @param
- * @return
- */
 
 public class WareConsumer {
 

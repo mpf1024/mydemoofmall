@@ -81,7 +81,7 @@ public class PaymentController {
         bizContnetMap.put("product_code","FAST_INSTANT_TRADE_PAY");
         bizContnetMap.put("subject",paymentInfo.getSubject());
         bizContnetMap.put("total_amount",paymentInfo.getTotalAmount());
-        // 将map变成json
+        // 将map变成json，
         String Json = JSON.toJSONString(bizContnetMap);
         alipayRequest.setBizContent(Json);
         String form="";
